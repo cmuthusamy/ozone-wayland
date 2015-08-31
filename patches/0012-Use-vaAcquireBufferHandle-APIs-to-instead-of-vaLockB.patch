@@ -1,4 +1,4 @@
-From caea19501b5110a3a20977736cd8dc5b138dd5fe Mon Sep 17 00:00:00 2001
+From 40a0e2423d92bdcf61d58af87198a2bb35dc20a2 Mon Sep 17 00:00:00 2001
 From: Qin Jiajia <jiajia.qin@intel.com>
 Date: Wed, 4 Mar 2015 03:50:49 -0800
 Subject: [PATCH 12/14] Use vaAcquireBufferHandle APIs to instead of

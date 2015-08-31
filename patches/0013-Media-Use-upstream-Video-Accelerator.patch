@@ -1,4 +1,4 @@
-From 3c2e648b0d83daebda42155ce2daf3cbfeceb476 Mon Sep 17 00:00:00 2001
+From ff4b10ce7fe122179a1de5cdcc126591b9c6f170 Mon Sep 17 00:00:00 2001
 From: Kalyan Kondapally <kalyan.kondapally@intel.com>
 Date: Wed, 4 Mar 2015 03:30:30 -0800
 Subject: [PATCH 13/14] Media: Use upstream Video Accelerator.
@@ -10,10 +10,10 @@ Subject: [PATCH 13/14] Media: Use upstream Video Accelerator.
  3 files changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/chrome/browser/password_manager/password_store_factory.cc b/chrome/browser/password_manager/password_store_factory.cc
-index fba3d00..c29b135 100644
+index 78b2425..2f3cf8f 100644
 --- a/chrome/browser/password_manager/password_store_factory.cc
 +++ b/chrome/browser/password_manager/password_store_factory.cc
-@@ -59,7 +59,7 @@ const LocalProfileId kInvalidLocalProfileId =
+@@ -61,7 +61,7 @@ const LocalProfileId kInvalidLocalProfileId =
      static_cast<LocalProfileId>(0);
  #endif
  
@@ -23,10 +23,10 @@ index fba3d00..c29b135 100644
  const char kLibsecretFieldTrialDisabledGroupName[] = "Disabled";
  #endif
 diff --git a/content/common/gpu/media/gpu_video_decode_accelerator.cc b/content/common/gpu/media/gpu_video_decode_accelerator.cc
-index 0e8af7f..7e3bb60 100644
+index 436428a..5f6ea2a 100644
 --- a/content/common/gpu/media/gpu_video_decode_accelerator.cc
 +++ b/content/common/gpu/media/gpu_video_decode_accelerator.cc
-@@ -42,7 +42,8 @@
+@@ -41,7 +41,8 @@
  #include "ui/gl/gl_implementation.h"
  #endif
  #elif defined(USE_OZONE)
@@ -36,7 +36,7 @@ index 0e8af7f..7e3bb60 100644
  #elif defined(OS_ANDROID)
  #include "content/common/gpu/media/android_video_decode_accelerator.h"
  #endif
-@@ -344,7 +345,7 @@ void GpuVideoDecodeAccelerator::BindImage(uint32 client_texture_id,
+@@ -342,7 +343,7 @@ void GpuVideoDecodeAccelerator::BindImage(uint32 client_texture_id,
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateVaapiVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
@@ -45,7 +45,7 @@ index 0e8af7f..7e3bb60 100644
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
-@@ -366,11 +367,6 @@ GpuVideoDecodeAccelerator::CreateVTVDA() {
+@@ -364,11 +365,6 @@ GpuVideoDecodeAccelerator::CreateVTVDA() {
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateOzoneVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;

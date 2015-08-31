@@ -1,4 +1,4 @@
-From 7bc7330c61e45302e050c5eea281c56a0bfa230a Mon Sep 17 00:00:00 2001
+From e13ec6cbf837fe34fa31c2865875c3ca5a6fb6d0 Mon Sep 17 00:00:00 2001
 From: Kalyan Kondapally <kalyan.kondapally@intel.com>
 Date: Tue, 6 Jan 2015 14:13:14 -0800
 Subject: [PATCH 10/14] Temp patch for XKB impl to work with Oz-WL.

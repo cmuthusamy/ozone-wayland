@@ -1,4 +1,4 @@
-From 6cd009ac0a73c2e286537d4c70f1bd0bb3a3004b Mon Sep 17 00:00:00 2001
+From d258ddb9f0d1bc15a5fa7d9f180a7766d7354890 Mon Sep 17 00:00:00 2001
 From: Joone Hur <joone.hur@intel.com>
 Date: Fri, 1 May 2015 14:34:01 -0700
 Subject: [PATCH 14/14] Remove ATK dependency
@@ -23,10 +23,10 @@ index a11f773..f88a7e2 100644
  
  NativeViewAccessibility::~NativeViewAccessibility() {
 diff --git a/ui/views/view.cc b/ui/views/view.cc
-index 78659ca..ca751a2 100644
+index da1491d..8807e15 100644
 --- a/ui/views/view.cc
 +++ b/ui/views/view.cc
-@@ -1264,8 +1264,10 @@ bool View::ExceededDragThreshold(const gfx::Vector2d& delta) {
+@@ -1253,8 +1253,10 @@ bool View::ExceededDragThreshold(const gfx::Vector2d& delta) {
  // Accessibility----------------------------------------------------------------
  
  gfx::NativeViewAccessible View::GetNativeViewAccessible() {
@@ -37,7 +37,7 @@ index 78659ca..ca751a2 100644
    if (native_view_accessibility_)
      return native_view_accessibility_->GetNativeObject();
    return NULL;
-@@ -1278,8 +1280,10 @@ void View::NotifyAccessibilityEvent(
+@@ -1267,8 +1269,10 @@ void View::NotifyAccessibilityEvent(
      ViewsDelegate::views_delegate->NotifyAccessibilityEvent(this, event_type);
  
    if (send_native_event && GetWidget()) {
