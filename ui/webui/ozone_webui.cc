@@ -34,7 +34,7 @@ ui::SelectFileDialog* OzoneWebUI::CreateSelectFileDialog(
 }
 
 scoped_ptr<ui::LinuxInputMethodContext> OzoneWebUI::CreateInputMethodContext(
-      ui::LinuxInputMethodContextDelegate* delegate, bool is_simple) const {
+      ui::LinuxInputMethodContextDelegate* delegate) const {
   return scoped_ptr<ui::LinuxInputMethodContext>();
 }
 

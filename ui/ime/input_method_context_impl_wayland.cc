@@ -34,15 +34,6 @@ void InputMethodContextImplWayland::Reset() {
       ResetIme();
 }
 
-void InputMethodContextImplWayland::Focus() {
-}
-
-void InputMethodContextImplWayland::Blur() {
-}
-
-void InputMethodContextImplWayland::SetCursorLocation(const gfx::Rect&) {
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // InputMethodContextImplWayland, ui::LinuxInputMethodContext implementation:
 
@@ -57,5 +48,22 @@ void InputMethodContextImplWayland::OnPreeditChanged(
   composition_text.text = base::string16(base::ASCIIToUTF16(text.c_str()));
   delegate_->OnPreeditChanged(composition_text);
 }
+
+void InputMethodContextImplWayland::OnTextInputTypeChanged(
+    ui::TextInputType text_input_type) {
+  IMEStateChangeHandler* handler =
+      EventFactoryOzoneWayland::GetInstance()->GetImeStateChangeHandler();
+  // FIXME: We need to support more input types.
+  if (text_input_type == ui::TEXT_INPUT_TYPE_NONE)
+    handler->HideInputPanel();
+  else
+    handler->ShowInputPanel();
+ }
+
+void InputMethodContextImplWayland::OnCaretBoundsChanged(
+    const gfx::Rect& caret_bounds) {
+  EventFactoryOzoneWayland::GetInstance()->GetImeStateChangeHandler()->
+      ImeCaretBoundsChanged(caret_bounds);
+ }
 
 }  // namespace ui

@@ -17,7 +17,7 @@ InputMethodContextFactoryWayland::~InputMethodContextFactoryWayland() {
 
 scoped_ptr<ui::LinuxInputMethodContext>
 InputMethodContextFactoryWayland::CreateInputMethodContext(
-      ui::LinuxInputMethodContextDelegate* delegate, bool is_simple) const {
+      ui::LinuxInputMethodContextDelegate* delegate) const {
   return scoped_ptr<ui::LinuxInputMethodContext>(
              new InputMethodContextImplWayland(delegate));
 }

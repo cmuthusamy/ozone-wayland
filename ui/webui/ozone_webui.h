@@ -47,7 +47,7 @@ class OzoneWebUI : public views::LinuxUI {
 
   // ui::LinuxInputMethodContextFactory:
   scoped_ptr<ui::LinuxInputMethodContext> CreateInputMethodContext(
-      ui::LinuxInputMethodContextDelegate* delegate, bool is_simple)
+      ui::LinuxInputMethodContextDelegate* delegate)
       const override;
 
   // gfx::LinuxFontDelegate:
