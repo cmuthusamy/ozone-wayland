@@ -42,17 +42,14 @@
       'direct_dependent_settings': {
         'cflags': [
           '<!@(<(pkg-config) --cflags <(wayland_packages))',
-          '<!@(<(pkg-config) --cflags gbm)',
         ],
       },
       'link_settings': {
         'ldflags': [
           '<!@(<(pkg-config) --libs-only-L --libs-only-other <(wayland_packages))',
-          '<!@(<(pkg-config) --libs-only-L --libs-only-other gbm)',
         ],
         'libraries': [
           '<!@(<(pkg-config) --libs-only-l <(wayland_packages))',
-          '<!@(<(pkg-config) --libs-only-l gbm)',
         ],
       },
       'dependencies': [
