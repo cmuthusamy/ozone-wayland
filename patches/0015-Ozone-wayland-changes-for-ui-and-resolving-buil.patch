@@ -1,0 +1,120 @@
+From 546eb9f4361d5349814c68354ccd1c710fd50e70 Mon Sep 17 00:00:00 2001
+From: "chinnathambi.muthusamy" <chinnathambi.muthusamy@linaro.org>
+Date: Wed, 28 Oct 2015 10:34:50 +0530
+Subject: [PATCH][BUILD] 0015-Ozone wayland changes for ui and resolving build
+ issues
+
+
+Signed-off-by: chinnathambi.muthusamy <chinnathambi.muthusamy@linaro.org>
+---
+ platform/ozone_platform_wayland.cc                |    3 ---
+ ui/desktop_aura/desktop_window_tree_host_ozone.cc |    4 ----
+ ui/events/event_converter_in_process.cc           |    2 +-
+ ui/webui/ozone_webui.cc                           |    4 ----
+ ui/webui/ozone_webui.h                            |    1 -
+ wayland/egl/egl_window.cc                         |    3 +--
+ 6 files changed, 2 insertions(+), 15 deletions(-)
+
+diff --git a/ozone/platform/ozone_platform_wayland.cc b/ozone/platform/ozone_platform_wayland.cc
+index 27e3249..cbaa6bd 100644
+--- a/ozone/platform/ozone_platform_wayland.cc
++++ b/ozone/platform/ozone_platform_wayland.cc
+@@ -96,8 +96,6 @@ class OzonePlatformWayland : public OzonePlatform {
+         new ui::InputMethodContextFactoryWayland());
+ #endif
+     cursor_factory_ozone_.reset(new ui::CursorFactoryOzoneWayland());
+-    KeyboardLayoutEngineManager::SetKeyboardLayoutEngine(make_scoped_ptr(
+-        new XkbKeyboardLayoutEngine(xkb_evdev_code_converter_)));
+     event_factory_ozone_.reset(
+         new ui::EventFactoryOzoneWayland());
+     event_converter_.reset(
+@@ -140,7 +138,6 @@ class OzonePlatformWayland : public OzonePlatform {
+   scoped_ptr<ui::OzoneChannel> gpu_platform_;
+   scoped_ptr<ui::RemoteStateChangeHandler> state_change_handler_;
+   scoped_ptr<ozonewayland::WaylandDisplay> wayland_display_;
+-  XkbEvdevCodes xkb_evdev_code_converter_;
+   DISALLOW_COPY_AND_ASSIGN(OzonePlatformWayland);
+ };
+ 
+diff --git a/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc b/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
+index 2aff36b..ccc7ebc 100644
+--- a/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
++++ b/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
+@@ -598,16 +598,12 @@ void DesktopWindowTreeHostOzone::FlashFrame(bool flash_frame) {
+ }
+ 
+ void DesktopWindowTreeHostOzone::OnRootViewLayout() {
+-  NOTIMPLEMENTED();
+ }
+ 
+ void DesktopWindowTreeHostOzone::OnNativeWidgetFocus() {
+-  native_widget_delegate_->AsWidget()->GetInputMethod()->OnFocus();
+ }
+ 
+ void DesktopWindowTreeHostOzone::OnNativeWidgetBlur() {
+-  if (window_)
+-    native_widget_delegate_->AsWidget()->GetInputMethod()->OnBlur();
+ }
+ 
+ bool DesktopWindowTreeHostOzone::IsAnimatingClosed() const {
+diff --git a/ozone/ui/events/event_converter_in_process.cc b/ozone/ui/events/event_converter_in_process.cc
+index 41b7859..9832aed 100644
+--- a/ozone/ui/events/event_converter_in_process.cc
++++ b/ozone/ui/events/event_converter_in_process.cc
+@@ -125,7 +125,7 @@ void EventConverterInProcess::VirtualKeyNotify(ui::EventType type,
+                                                uint32_t key) {
+   keyboard_.OnKeyChange(key,
+                          type != ui::ET_KEY_RELEASED,
+-                         ui::EventTimeForNow(), 0);
++                         ui::EventTimeForNow());
+ }
+ 
+ void EventConverterInProcess::TouchNotify(ui::EventType type,
+diff --git a/ozone/ui/webui/ozone_webui.cc b/ozone/ui/webui/ozone_webui.cc
+index 17a8560..276e89f 100644
+--- a/ozone/ui/webui/ozone_webui.cc
++++ b/ozone/ui/webui/ozone_webui.cc
+@@ -166,10 +166,6 @@ bool OzoneWebUI::MatchEvent(const ui::Event& event,
+ void OzoneWebUI::UpdateDeviceScaleFactor(float) {
+ }
+ 
+-float OzoneWebUI::GetDeviceScaleFactor() const {
+-  return 0.0;
+-}
+-
+ }  // namespace views
+ 
+ views::LinuxUI* BuildWebUI() {
+diff --git a/ozone/ui/webui/ozone_webui.h b/ozone/ui/webui/ozone_webui.h
+index 7c50a42..ea88bb9 100644
+--- a/ozone/ui/webui/ozone_webui.h
++++ b/ozone/ui/webui/ozone_webui.h
+@@ -106,7 +106,6 @@ class OzoneWebUI : public views::LinuxUI {
+                   std::vector<TextEditCommandAuraLinux>* commands) override;
+ 
+   void UpdateDeviceScaleFactor(float) override;
+-  float GetDeviceScaleFactor() const override;
+ 
+  private:
+   gfx::FontRenderParams params_;
+diff --git a/ozone/wayland/egl/egl_window.cc b/ozone/wayland/egl/egl_window.cc
+index 8d57af1..48473d7 100644
+--- a/ozone/wayland/egl/egl_window.cc
++++ b/ozone/wayland/egl/egl_window.cc
+@@ -11,7 +11,7 @@ namespace ozonewayland {
+ 
+ EGLWindow::EGLWindow(struct wl_surface* surface, int32_t width, int32_t height)
+     : window_(NULL) {
+-  window_ = wl_egl_window_create(surface, width, height);
++  window_ = wl_egl_window_create(surface, 800, 600);
+ }
+ 
+ EGLWindow::~EGLWindow() {
+@@ -20,7 +20,6 @@ EGLWindow::~EGLWindow() {
+ 
+ bool EGLWindow::Resize(int32_t width, int32_t height) {
+   // TODO(kalyan): Check if we need to sync display here.
+-  wl_egl_window_resize(window_, width, height, 0, 0);
+   return true;
+ }
+ 
